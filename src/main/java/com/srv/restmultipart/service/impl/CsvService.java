@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.srv.restmultipart.beans.Student;
@@ -34,11 +34,11 @@ public class CsvService implements ICsvService {
 	}
 	
 	private List<Student> processCsv(InputStream fileStream) {
-		try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(fileStream, "UTF-8"));
+		try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(fileStream,StandardCharsets.UTF_8));
 				CSVParser csvParser = new CSVParser(fileReader,
 						CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
 
-			List<Student> students = new ArrayList<Student>();
+			List<Student> students = new ArrayList<>();
 
 			Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 
